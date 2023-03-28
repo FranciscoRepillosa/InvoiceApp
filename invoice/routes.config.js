@@ -6,5 +6,6 @@ const invoiceCrontroller = require('./controllers/invoice.controller.js');
 
 console.log(invoiceCrontroller.createInvoice);
 router.post('/', invoiceCrontroller.createInvoice);
+router.get('/', invoiceCrontroller.getInvoices);
 
 module.exports = router
