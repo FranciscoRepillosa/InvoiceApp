@@ -6,8 +6,17 @@
 // The response object contains a send() method that can be used to send a response to the client.
 
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
 const port = 3000
+
+mongoose.connect("mongodb+srv://frenchi:O197YM4p8Q3d0HS2@db-mongodb-nyc1-42599-07ea1556.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-42599", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    }
+);
 
 // require the routes file of the invoice folder
 const invoiceRoutes = require('./invoice/routes.config.js');
