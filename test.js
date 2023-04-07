@@ -23,7 +23,7 @@ const userRoutes = require('./user/routes.config.js');
 
 const authController = require('./user/controllers/auth.controller.js');
 
-app.use(authController.protect())
+app.use(authController.protect)
 app.use('/invoice', invoiceRoutes);
 app.use('/user', userRoutes);
 
