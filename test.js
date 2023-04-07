@@ -2,20 +2,25 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const port = 6666
+const path = require('path')
 
-const conectionString = "mongodb+srv://frenchi:O197YM4p8Q3d0HS2@db-mongodb-nyc1-42599-07ea1556.mongo.ondigitalocean.com/invoice?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-42599"
+
+const conectionString = "mongodb://24.199.88.210:27017/invoice"
 
 mongoose.connect(conectionString, {
   serverSelectionTimeoutMS: 5000  
 }
 );
 
-
+app.set("views", path.join(__dirname, "views"));
+app.set('view engine', 'pug')
 
 // require the routes file of the invoice folder
 const invoiceRoutes = require('./invoice/routes.config.js');
+const userRoutes = require('./user/routes.config.js');
 
 app.use('/invoice', invoiceRoutes);
+app.use('/user', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

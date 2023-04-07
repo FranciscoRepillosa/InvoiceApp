@@ -51,3 +51,12 @@ exports.getInvoices = (req, res) => {
         // if there is an error, send a response with a 500 status code and the error
         .catch(error => sendError(error, res));
 }
+
+exports.renderInvoiceList = (req, res) => {
+
+    invoiceModel.find()
+        .then(invoices => {
+            res.render('invoice/list', { invoices });
+        })
+        .catch(error => sendError(error, res));
+}

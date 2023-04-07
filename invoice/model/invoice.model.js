@@ -11,9 +11,17 @@ const invoiceSchema = new mongoose.Schema({
     price: Number,
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'categories' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    userThatHasToPay: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    userThatHasToPayName: String,
+    userThatHasToPayEmail: String,
     quantity: Number,
     total: Number,
-    date: Date
+    date: Date,
+    status: {
+        type: String,
+        enum: ['pending', 'paid'],
+        default: 'pending'
+    }
 });
 
 // create a model for the invoice collection
