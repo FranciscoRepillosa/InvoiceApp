@@ -22,17 +22,11 @@ const sendError = (error, res) => {
 // create a function to create a new invoice and save it to the database (this function will be exported)
 exports.createInvoice = (req, res) => {
     // get the data from the request body
-    const { name, description, price, category, user, quantity, total, date } = req.body;
+    const {  email, total } = req.body;
     // create a new invoice object
     const invoice = new invoiceModel({
-        name,
-        description,
-        price,
-        category,
-        user,
-        quantity,
-        total,
-        date
+        email,
+        total
     });
     // save the invoice to the database
     invoice.save()
