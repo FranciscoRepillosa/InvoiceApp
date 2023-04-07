@@ -48,7 +48,7 @@ exports.getInvoices = (req, res) => {
 
 exports.renderInvoiceList = (req, res) => {
 
-    invoiceModel.find()
+    invoiceModel.find({email: req.user.email})
         .then(invoices => {
             res.render('invoice/list', { invoices });
         })
