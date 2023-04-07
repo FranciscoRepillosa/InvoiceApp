@@ -21,9 +21,9 @@ app.use(express.json({limit: '10kb'}));
 const invoiceRoutes = require('./invoice/routes.config.js');
 const userRoutes = require('./user/routes.config.js');
 
-const {authController} = require('./user/controllers/auth.controller.js');
+const authController = require('./user/controllers/auth.controller.js');
 
-app.use(authController.protect)
+app.use(authController.protect())
 app.use('/invoice', invoiceRoutes);
 app.use('/user', userRoutes);
 
