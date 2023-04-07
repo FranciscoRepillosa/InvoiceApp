@@ -3,8 +3,8 @@ document.getElementById('submit').addEventListener('click', function(e) {
     // to invoice route
 
     e.preventDefault();
-    var total = document.getElementById('total').value;
-    var email = document.getElementById('email').value;
+    var total = document.getElementById('invoiceTotal').value;
+    var email = document.getElementById('invoiceEmail').value;
     var data = {
         total: total,
         email: email
