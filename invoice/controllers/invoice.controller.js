@@ -25,7 +25,7 @@ exports.createInvoice = (req, res) => {
     const {  email, total } = req.body;
     // create a new invoice object
     const invoice = new invoiceModel({
-        email,
+        userThatHasToPayEmail: email,
         total
     });
     // save the invoice to the database
@@ -48,7 +48,7 @@ exports.getInvoices = (req, res) => {
 
 exports.renderInvoiceList = (req, res) => {
 
-    invoiceModel.find({email: req.user.email})
+    invoiceModel.find({userThatHasToPayEmail: req.user.email})
         .then(invoices => {
             res.render('invoice/list', { invoices });
         })

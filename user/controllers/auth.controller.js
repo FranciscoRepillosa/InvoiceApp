@@ -20,6 +20,7 @@ exports.signup = catchAsync( async (req, res, next) => {
     
     let filter = {
         name: req.body.name,
+        email: req.body.email,
         password: req.body.password,
     }
 

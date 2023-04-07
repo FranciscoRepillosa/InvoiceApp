@@ -1,7 +1,7 @@
 document.getElementById('submit').addEventListener('click', function(e) {
     e.preventDefault();
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+    var email = document.getElementById('exampleInputEmail1').value;
+    var password = document.getElementById('exampleInputPassword1').value;
     var data = {
         email: email,
         password: password

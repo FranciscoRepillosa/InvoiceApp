@@ -4,6 +4,10 @@ const app = express()
 const port = 3000
 const path = require('path')
 const cookieParser = require("cookie-parser");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
+
+
 
 
 const conectionString = "mongodb://24.199.88.210:27017/invoice"
