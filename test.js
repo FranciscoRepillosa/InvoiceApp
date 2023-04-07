@@ -14,6 +14,8 @@ mongoose.connect(conectionString, {
 
 app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'pug')
+app.use(express.json({limit: '10kb'}));
+
 
 // require the routes file of the invoice folder
 const invoiceRoutes = require('./invoice/routes.config.js');
