@@ -1,6 +1,7 @@
-document.getElementById('submit').addEventListener('click', function() {
+document.getElementById('submit').addEventListener('click', function(e) {
     // get the name, email and password from the form and send it to the server using fetch API
     // to user/signup route
+    e.preventDefault();
     var name = document.getElementById('name').value;
     var password = document.getElementById('password').value;
     const email = document.getElementById('email').value;
