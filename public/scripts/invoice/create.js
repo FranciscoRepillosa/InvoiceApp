@@ -1,4 +1,4 @@
-document.getElementById('Submit').addEventListener('click', function(e) {
+document.getElementById('submit').addEventListener('click', function(e) {
     // get the total and email from the form and send it to the server using fetch API
     // to invoice route
 
