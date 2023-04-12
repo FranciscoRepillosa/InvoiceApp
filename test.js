@@ -9,7 +9,6 @@ dotenv.config({ path: "./config.env" });
 
 
 
-
 const conectionString = "mongodb://24.199.88.210:27017/invoice"
 
 mongoose.connect(conectionString, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -26,11 +25,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // require the routes file of the invoice folder
 const invoiceRoutes = require('./invoice/routes.config.js');
 const userRoutes = require('./user/routes.config.js');
+const checkoutRoutes = require('./checkout/routes.config.js');
 
 const authController = require('./user/controllers/auth.controller.js');
 
 app.use('/invoice', authController.protect, invoiceRoutes);
 app.use('/user', userRoutes);
+app.use('/checkout', checkoutRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
