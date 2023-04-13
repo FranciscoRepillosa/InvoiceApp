@@ -52,7 +52,8 @@ async function handleSubmit(e) {
   setLoading(true);
 
   const payment = await stripe.confirmPayment({
-    elements
+    elements,
+    redirect: "if_required"
   });
 
   console.log(payment);
