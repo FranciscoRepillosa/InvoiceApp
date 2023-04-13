@@ -25,6 +25,8 @@ exports.createPaymentIntent = async (req, res) => {
     },
   });
 
+  console.log('paymentIntent ', paymentIntent);
+
   res.send({
     clientSecret: paymentIntent.client_secret,
   });
