@@ -3,14 +3,7 @@
 // Sign in to see your own test API key embedded in code samples.
 const stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
-// Assume the current URL is "https://example.com/?invoiceId=value1"
-const queryString = window.location.search;
-
-// Remove the leading '?' character from the query string
-const queryParams = new URLSearchParams(queryString.substr(1));
-
-// Retrieve the value of a particular query parameter
-const invoiceId = queryParams.get("invoiceId");
+const invoiceId = window.location.search.replace("?","");;
 
 // The items the customer wants to buy
 const items = [{ id: "xl-tshirt" }];

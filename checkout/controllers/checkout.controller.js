@@ -12,6 +12,8 @@ exports.createPaymentIntent = async (req, res) => {
 
   const invoiceTotal = (await Invoice.findById(req.body.invoiceId)).total
 
+  console.log(invoiceTotal);
+
   const { items } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
