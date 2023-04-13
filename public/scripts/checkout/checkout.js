@@ -67,12 +67,14 @@ async function handleSubmit(e) {
 
     const { status } = await response.json();
 
-    if(status === 'success') {
+    alert(status);
+
+    if(status === 'paid') {
       window.location.href = `/invoice/list`;
     }
   }
 
-  
+
   const error = payment.error;
 
   // This point will only be reached if there is an immediate error when
