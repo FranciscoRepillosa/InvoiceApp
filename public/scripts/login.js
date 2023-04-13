@@ -6,14 +6,14 @@ document.getElementById('submit').addEventListener('click', function(e) {
         email: email,
         password: password
     };
-    fetch('/login', {
+    fetch('./login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     }).then(function (response) {
-        console.log(response);
+        log
         if (response.status === 200) {
             window.location.href = '/invoice/list';
         } else {
