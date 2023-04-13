@@ -51,14 +51,13 @@ async function handleSubmit(e) {
   e.preventDefault();
   setLoading(true);
 
-  const { error } = await stripe.confirmPayment({
-    elements,
-    confirmParams: {
-      // Make sure to change this to your payment completion page
-      return_url: "https://repillosa.com",
-      receipt_email: emailAddress,
-    },
+  const payment = await stripe.confirmPayment({
+    elements
   });
+
+  console.log(payment);
+
+  const error = payment.error;
 
   // This point will only be reached if there is an immediate error when
   // confirming the payment. Otherwise, your customer will be redirected to
