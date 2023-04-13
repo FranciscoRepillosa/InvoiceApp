@@ -56,7 +56,7 @@ async function handleSubmit(e) {
     redirect: "if_required"
   });
 
-  console.log(payment.paymentIntent);
+  console.log(payment.starus);
 
   if(payment.status === "succeeded") {
     const response = await fetch(`/invoice/${invoiceId}/status`, {
