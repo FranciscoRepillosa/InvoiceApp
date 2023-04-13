@@ -46,6 +46,15 @@ exports.getInvoices = (req, res) => {
         .catch(error => sendError(error, res));
 }
 
+exports.changeStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const updatedInvoice = await invoiceModel.findByIdAndUpdate(id, {status}, {new: true});
+
+    sendInvoice(updatedInvoice, res);
+}
+
 exports.renderInvoiceList = (req, res) => {
 
     invoiceModel.find({userThatHasToPayEmail: req.user.email})

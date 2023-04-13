@@ -58,6 +58,21 @@ async function handleSubmit(e) {
 
   console.log(payment);
 
+  if(payment.status === 'succeeded') {
+    const response = await fetch(`/invoice/${invoiceId}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: 'paid' }),
+    });
+
+    const { status } = await response.json();
+
+    if(status === 'success') {
+      window.location.href = `/invoice/list`;
+    }
+  }
+
+  
   const error = payment.error;
 
   // This point will only be reached if there is an immediate error when

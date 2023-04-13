@@ -8,6 +8,7 @@ const {renderTemplete} = require('../utils/renderTemplate.js');
 console.log(invoiceCrontroller.createInvoice);
 router.post('/', invoiceCrontroller.createInvoice);
 router.get('/', invoiceCrontroller.getInvoices);
+router.put('/:id/status', invoiceCrontroller.changeStatus);
 router.get('/create', renderTemplete('./invoice/create'));
 router.get('/list', invoiceCrontroller.renderInvoiceList);
 
