@@ -51,12 +51,12 @@ async function handleSubmit(e) {
   e.preventDefault();
   setLoading(true);
 
-  const payment = await stripe.confirmPayment({
+  const {payment} = await stripe.confirmPayment({
     elements,
     redirect: "if_required"
   });
 
-  console.log(payment);
+  console.log(payment.paymentIntent);
 
   if(payment.status === "succeeded") {
     const response = await fetch(`/invoice/${invoiceId}/status`, {
