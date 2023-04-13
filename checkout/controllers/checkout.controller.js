@@ -12,7 +12,7 @@ exports.createPaymentIntent = async (req, res) => {
 
   const invoiceTotal = (await Invoice.findById(req.body.invoiceId)).total
 
-  console.log(invoiceTotal);
+  console.log('invoiceTotal ', invoiceTotal);
 
   const { items } = req.body;
 
