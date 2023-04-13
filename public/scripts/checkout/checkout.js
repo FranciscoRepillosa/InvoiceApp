@@ -58,7 +58,7 @@ async function handleSubmit(e) {
 
   console.log(payment);
 
-  if(payment.status === 'succeeded') {
+  if(payment.status === "succeeded") {
     const response = await fetch(`/invoice/${invoiceId}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -74,21 +74,22 @@ async function handleSubmit(e) {
     }
   }
 
+  else{
+    const error = payment.error;
 
-  const error = payment.error;
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+    if (error.type === "card_error" || error.type === "validation_error") {
+      showMessage(error.message);
+    } else {
+      showMessage("An unexpected error occurred.");
+    }
 
-  // This point will only be reached if there is an immediate error when
-  // confirming the payment. Otherwise, your customer will be redirected to
-  // your `return_url`. For some payment methods like iDEAL, your customer will
-  // be redirected to an intermediate site first to authorize the payment, then
-  // redirected to the `return_url`.
-  if (error.type === "card_error" || error.type === "validation_error") {
-    showMessage(error.message);
-  } else {
-    showMessage("An unexpected error occurred.");
-  }
-
-  setLoading(false);
+    setLoading(false);
+}
 }
 
 // Fetches the payment intent status after payment submission
