@@ -13,6 +13,7 @@ document.getElementById('submit').addEventListener('click', function(e) {
         },
         body: JSON.stringify(data)
     }).then(function (response) {
+        console.log(response);
         if (response.status === 200) {
             window.location.href = '/invoice/list';
         } else {
