@@ -6,8 +6,7 @@ const path = require('path')
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
-const globalErrorHandler = require('./utils/globalErrorHandler.js');
-
+const globalErrorHandler = require('./utils/errorHandlers.js');
 
 
 const conectionString = "mongodb://24.199.88.210:27017/invoice"
