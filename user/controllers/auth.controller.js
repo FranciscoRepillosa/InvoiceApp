@@ -57,7 +57,7 @@ exports.signup = catchAsync( async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
     //console.log(req.body);
-    const { userName, password } = req.body;
+    const { email, password } = req.body;
 
     console.log("body", userName);
 
@@ -65,7 +65,7 @@ exports.login = catchAsync(async (req, res, next) => {
         return next(new AppError("Please provide email and pasword", 400));
     }
     
-    var user = await User.findOne({ userName });
+    var user = await User.findOne({ email });
 
     //console.log(user);
 
