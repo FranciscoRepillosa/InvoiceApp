@@ -6,6 +6,7 @@ const path = require('path')
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
+const globalErrorHandler = require('./utils/globalErrorHandler.js');
 
 
 
@@ -36,6 +37,8 @@ app.use('/checkout', checkoutRoutes);
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+app.use(globalErrorHandler);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
