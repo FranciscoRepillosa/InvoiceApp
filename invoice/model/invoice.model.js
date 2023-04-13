@@ -10,7 +10,7 @@ const invoiceSchema = new mongoose.Schema({
     description: String,
     price: Number,
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'categories' },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     userThatHasToPay: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     userThatHasToPayName: String,
     userThatHasToPayEmail: String,

@@ -25,6 +25,7 @@ exports.createInvoice = (req, res) => {
     const {  email, total } = req.body;
     // create a new invoice object
     const invoice = new invoiceModel({
+        userId: req.user._id,
         userThatHasToPayEmail: email,
         total
     });
@@ -58,6 +59,14 @@ exports.changeStatus = async (req, res) => {
 exports.renderInvoiceList = (req, res) => {
 
     invoiceModel.find({userThatHasToPayEmail: req.user.email})
+        .then(invoices => {
+            res.render('invoice/list', { invoices });
+        })
+        .catch(error => sendError(error, res));
+}
+
+exports.renderAdminInvoiceList = (req, res) => {
+    invoiceModel.find({userId: req.user._id})
         .then(invoices => {
             res.render('invoice/list', { invoices });
         })
