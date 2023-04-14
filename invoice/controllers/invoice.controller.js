@@ -68,7 +68,7 @@ exports.renderInvoiceList = (req, res) => {
 exports.renderAdminInvoiceList = (req, res) => {
     invoiceModel.find({userId: req.user._id})
         .then(invoices => {
-            res.render('invoice/list', { invoices });
+            res.render('invoice/admin', { invoices });
         })
         .catch(error => sendError(error, res));
 }

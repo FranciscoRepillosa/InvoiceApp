@@ -12,8 +12,9 @@ document.getElementById('submit').addEventListener('click', function(e) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    }).then(function (response) {
-        if (response.status === 200) {
+    }).then(async function (response) {
+        let data = await response.json();
+        if (data.status === "success") {
             window.location.href = '/invoice/list';
         } else {
             alert('Invalid username or password');

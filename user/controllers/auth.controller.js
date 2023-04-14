@@ -58,9 +58,7 @@ exports.login = catchAsync(async (req, res, next) => {
     //console.log(req.body);
     const { email, password } = req.body;
 
-    console.log("body", userName);
-
-    if(!userName || !password) {
+    if(!email || !password) {
         return next(new AppError("Please provide email and pasword", 400));
     }
     
