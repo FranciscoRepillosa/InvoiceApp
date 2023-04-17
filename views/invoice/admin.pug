@@ -8,7 +8,24 @@ html(lang="en")
         title Document
     body 
         // foreach invoice in invoices create a table row with the invoice data
-        table.table
+
+        .filter
+            .statusPicker
+                select(name="status", id="status")
+                    option(value="all") All
+                    option(value="paid") Paid
+                    option(value="unpaid" selected) Unpaid
+                input(type="submit" value="Filter")
+            .datePicker
+                label(for="startDate") Start Date
+                input(type="date" name="startDate" id="startDate" value= startDate)
+                label(for="endDate") End Date
+                input(type="date" name="endDate" id="endDate" value= endDate)
+                input(type="submit" value="Filter")
+        .header
+            h3= dateRange
+            h3= "Total"+total+"$"
+        table.table#invoicesTable
             thead
                 tr
                     th Invoice Number
@@ -27,3 +44,4 @@ html(lang="en")
                             a.btn.btn-primary(href=`/invoice/${invoice._id}`) View
                             a.btn.btn-warning(href=`/invoice/edit/${invoice._id}`) Edit
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe' crossorigin='anonymous')
+    script(src='/scripts/invoice/admin.js')

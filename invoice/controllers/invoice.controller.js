@@ -1,5 +1,6 @@
 // require the invoice model
 const invoiceModel = require('../model/invoice.model.js');
+const {getFilters} = require('../../utils/queryHelper.js');
 
 
 const sendInvoice = (invoice, res) => {
@@ -27,7 +28,8 @@ exports.createInvoice = (req, res) => {
     const invoice = new invoiceModel({
         userId: req.user._id,
         userThatHasToPayEmail: email,
-        total
+        total,
+        date: new Date()
     });
     // save the invoice to the database
     invoice.save()
@@ -40,6 +42,9 @@ exports.createInvoice = (req, res) => {
 // create a function to get all invoices from the database (this function will be exported)
 exports.getInvoices = (req, res) => {
     // get all invoices from the database
+
+    const queryFilter = getFilters(req.query);
+
     invoiceModel.find()
         // if the invoices are found, send a response with a 200 status code and the invoices
         .then(invoices => sendInvoice(invoices, res))
@@ -66,9 +71,21 @@ exports.renderInvoiceList = (req, res) => {
 }
 
 exports.renderAdminInvoiceList = (req, res) => {
-    invoiceModel.find({userId: req.user._id})
+
+    const startDate = `${new Date().getFullYear()}-0${new Date().getMonth()}-${new Date().getDate()}`;
+    const endDate = `${new Date().getFullYear()}-0${new Date().getMonth()+1}-${new Date().getDate()}`;
+    const dateRange = `${startDate} - ${endDate}`;
+
+    invoiceModel.find({
+        date: {
+            // write a new date for this exact date from a month ago
+            $gte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toISOString(),
+            $lte: new Date().toISOString()
+        }
+    })
         .then(invoices => {
-            res.render('invoice/admin', { invoices });
+            const total = invoices.reduce((acc, invoice) => acc + invoice.total, 0);
+            res.render('invoice/admin', { invoices, startDate, endDate, dateRange,total});
         })
         .catch(error => sendError(error, res));
 }

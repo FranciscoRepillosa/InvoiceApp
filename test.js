@@ -7,12 +7,15 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const globalErrorHandler = require('./utils/errorHandlers.js');
+const cors = require('cors');
 
 
-const conectionString = "mongodb://24.199.88.210:27017/invoice"
+//const conectionString = "mongodb://24.199.88.210:27017/invoice"
+const conectionString = "mongodb://localhost:27017/invoice"
 
 mongoose.connect(conectionString, {useNewUrlParser: true, useUnifiedTopology: true})
 
+app.set(cors())
 app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'pug')
 app.use(express.json({limit: '10kb'}));
