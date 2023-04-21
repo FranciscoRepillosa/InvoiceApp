@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-exports.sendEmail = (reciverEmail, subject, textContent, htmlContent) => {
+exports.sendEmail = (reciverEmail, subject, textContent, htmlContent, pdfFileName, pdfFilePath) => {
     // setup email data with unicode symbols
     // the from property is the env variable set in the config.env file called EMAIL_USER and the password is the env variable called EMAIL_PASSWORD
 
@@ -19,7 +19,17 @@ exports.sendEmail = (reciverEmail, subject, textContent, htmlContent) => {
         subject: subject,
         text: textContent,
         html: htmlContent
+   
     };
+
+    if (pdfFileName && pdfFilePath) {
+        mailOptions.attachments = [
+            {
+                filename: pdfFileName,
+                path: pdfFilePath
+            }
+        ];
+    }
 
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
