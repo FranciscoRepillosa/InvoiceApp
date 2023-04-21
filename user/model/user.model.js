@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     name: String,
     password: String,
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'products' }],
-    email: String
+    email: String,
+    clients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
 });
 
 // create a model for the schema above  
