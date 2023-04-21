@@ -1,6 +1,7 @@
 // require the invoice model
 const invoiceModel = require('../model/invoice.model.js');
 const {getFilters} = require('../../utils/queryHelper.js');
+const {sendEmail} = require('../../utils/emailSender.js');
 
 
 const sendInvoice = (invoice, res) => {
@@ -34,7 +35,11 @@ exports.createInvoice = (req, res) => {
     // save the invoice to the database
     invoice.save()
         // if the invoice is saved to the database, send a response with a 200 status code and the invoice
-        .then(invoice => sendInvoice(invoice, res))
+        .then(invoice => {
+            const emailStatus = sendEmail(email, 'Invoice', 'You have a new invoice', `<h1>Invoice</h1><p>Invoice total: ${total}</p>`);
+            invoice.emailStatus = emailStatus ? 'sent' : 'not sent';
+            sendInvoice(invoice, res)
+        })
         // if there is an error, send a response with a 500 status code and the error
         .catch(error => sendError(error, res));
 }
