@@ -11,7 +11,7 @@ const cors = require('cors');
 
 
 //const conectionString = "mongodb://24.199.88.210:27017/invoice"
-const conectionString = "mongodb://localhost:27017/invoice"
+const conectionString = "mongodb://127.0.0.1:27017/invoice"
 
 mongoose.connect(conectionString, {useNewUrlParser: true, useUnifiedTopology: true})
 

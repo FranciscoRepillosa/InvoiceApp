@@ -12,5 +12,7 @@ router.put('/:id/status', invoiceCrontroller.changeStatus);
 router.get('/create', renderTemplete('./invoice/create'));
 router.get('/list', invoiceCrontroller.renderInvoiceList);
 router.get('/admin', invoiceCrontroller.renderAdminInvoiceList);
+router.get('/view/:id', invoiceCrontroller.viewInvoiceById);
+router.get("/summary", invoiceCrontroller.getSummary);
 
 module.exports = router

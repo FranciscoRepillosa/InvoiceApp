@@ -30,4 +30,8 @@ router.get("/extendSession", authController.extendSession);
 
 router.get("/checkSession", authController.checkSession);
 
+router.get("/myClients", authController.protect, userController.showClients);
+
+router.get("/myClients/:id", authController.protect, userController.showClient);
+
 module.exports = router

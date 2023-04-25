@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Summary
+    body 
+
+    h3 estimatedEarnings: #{invoices.estimatedIncome}
+    h3 totalEarnings: #{invoices.estimatedPaid}
+    h3 totalUnpaid: #{invoices.estimatedDue}
+    h3 estimatedIncomeThisMonth #{invoices.estimatedIncomeThisMonth}
+    h3 estimatedIncomeThisWeek #{invoices.estimatedIncomeThisWeek}
+    h3 estimatedIncomeToday #{invoices.estimatedIncomeToday}
+    h3 numberOfInvoices #{invoices.numberOfInvoices}

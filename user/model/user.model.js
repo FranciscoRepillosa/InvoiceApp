@@ -9,7 +9,9 @@ const userSchema = new mongoose.Schema({
     password: String,
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'products' }],
     email: String,
-    clients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+    clients: [
+        {email: String, name: String}
+    ],
 });
 
 // create a model for the schema above  

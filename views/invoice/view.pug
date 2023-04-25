@@ -4,7 +4,7 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        link(rel="stylesheet", href="/styles/create.css")
+        link(rel="stylesheet", href="/styles/view.css")
         title Document
     body 
         // form to create a new invoice using bootstrap classes, with the following fields: invoice total, invoice email
@@ -15,9 +15,6 @@ html(lang="en")
             .form-group
                 label(for='invoiceEmail') Invoice Email
                 input#invoiceEmail.form-control(type='email' placeholder='Enter invoice email')
-            .form-group
-                label(for='invoiceEmail') Client Name
-                input#clientName.form-control(type='text' placeholder='Enter invoice email')
             button#submit.btn.btn-primary(type='submit') Submit
         table.table
             thead
@@ -27,23 +24,14 @@ html(lang="en")
                     th Qty
                     th Total
             tbody
-                tr
-                    td
-                        input.name(type="text", name="service1" id="service1")
-                    td   
-                        input.price(type="number", name="price1"  id="price1")
-                    td
-                        input.qty(type="number", name="qty1" id="qty1")
-                    td.serviceTotal#total1 0
-                tr
-                    td
-                        input.name(type="text", name="service2" id="service2")
-                    td   
-                        input.price(type="number", name="price2"  id="price2")
-                    td
-                        input.qty(type="number", name="qty2" id="qty2")
-                    td.serviceTotal#total2 0
+
+                each service in invoice.services
+                    tr
+                        td= service.name
+                        td= service.price
+                        td= service.qty
+                        td= service.total
         .total
-            h3#invoiceTotal Total: 0
+            h3= invoice.total
 
     script(src='/scripts/invoice/create.js')

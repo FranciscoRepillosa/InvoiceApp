@@ -1,6 +1,8 @@
 const User = require("../model/user.model");
 const bcrypt = require("bcrypt");
-const catchAsync = require("../../utils/catchAsync");/* 
+const catchAsync = require("../../utils/catchAsync");
+const Invoice = require("../../invoice/model/invoice.model");
+/*
 const ldapClient = require("../../utils/ldapClient"); */
 
 exports.showCoinFer = async (req, res) => {
@@ -77,6 +79,23 @@ exports.changeUserRole = async (req,res) => {
 exports.renderChangeRolePage = async (req, res) => {
     res.render('user/changeRole.pug')
 }
+
+exports.showClients = async (req, res) => {
+
+    res.render('user/myClients.pug', {clients: req.user.clients})
+}
+
+exports.showClient = async (req, res) => {
+
+    const client = req.user.clients.find((client) => {
+        return client._id == req.params.id
+    })
+
+    const ClientInvoices = Invoice.find({userThatHasToPayEmail: client.email})
+
+    res.render('user/myClient.pug', {client, ClientInvoices})
+}
+
 
 
 

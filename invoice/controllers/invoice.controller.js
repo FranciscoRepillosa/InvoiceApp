@@ -3,6 +3,7 @@ const invoiceModel = require('../model/invoice.model.js');
 const {getFilters} = require('../../utils/queryHelper.js');
 const {sendEmail} = require('../../utils/emailSender.js');
 const User = require('../../user/model/user.model.js');
+const mongoose = require('mongoose');
 
 
 const sendInvoice = (invoice, res) => {
@@ -25,30 +26,37 @@ const sendError = (error, res) => {
 // create a function to create a new invoice and save it to the database (this function will be exported)
 exports.createInvoice = (req, res) => {
     // get the data from the request body
-    const {  email, total } = req.body;
+    const {  email, total, services, clientName } = req.body;
     // create a new invoice object
     const invoice = new invoiceModel({
         userId: req.user._id,
         userThatHasToPayEmail: email,
         total,
+        services,
         date: new Date()
     });
     // save the invoice to the database
     invoice.save()
         // if the invoice is saved to the database, send a response with a 200 status code and the invoice
         .then(async invoice => {
-            const emailStatus = sendEmail(email, 'Invoice', 'You have a new invoice', `<h1>Invoice</h1><p>Invoice total: ${total}</p>`);
-            invoice.emailStatus = emailStatus ? 'sent' : 'not sent';
-
-            // create client user
-            const clientUser = await User.create({
-                email: email,
-            });
+            // const emailStatus = sendEmail(email, 'Invoice', 'You have a new invoice', `<h1>Invoice</h1><p>Invoice total: ${total}</p>`);
+            // invoice.emailStatus = emailStatus ? 'sent' : 'not sent';
             
             const user = await User.findById(req.user._id);
-            user.clients.push(clientUser._id);
-            await user.save();
 
+            // check if the client is already in the user's clients list
+            const client = user.clients.find((client) => {
+                return client.email == email
+            })
+
+            // if the client is not in the user's clients list, add it
+            if (!client) {
+                user.clients.push({
+                    email: email,
+                    name: clientName,
+                });
+                await user.save();
+            }
 
             sendInvoice(invoice, res)
         })
@@ -98,11 +106,64 @@ exports.renderAdminInvoiceList = (req, res) => {
             // write a new date for this exact date from a month ago
             $gte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toISOString(),
             $lte: new Date().toISOString()
-        }
+        },
+        userId: req.user._id
     })
         .then(invoices => {
             const total = invoices.reduce((acc, invoice) => acc + invoice.total, 0);
             res.render('invoice/admin', { invoices, startDate, endDate, dateRange,total});
         })
         .catch(error => sendError(error, res));
+}
+
+exports.viewInvoiceById = (req, res) => {
+    const { id } = req.params;
+
+    invoiceModel.findById(id)
+        .then(invoice => {
+            res.render('invoice/view', { invoice });
+        })
+        .catch(error => sendError(error, res));
+}
+
+exports.getSummary = async (req, res) => {
+
+    const AllUserinvoices = await invoiceModel.find({userId: req.user._id});
+
+    const estimatedIncome = AllUserinvoices.reduce((acc, invoice) => acc + invoice.total, 0);
+
+    const numberOfInvoices = AllUserinvoices.length;
+
+    const estimatedDue = AllUserinvoices.filter(invoice => {
+        return invoice.status == 'pending';
+    }).reduce((acc, invoice) => acc + invoice.total, 0);
+
+    const estimatedPaid = AllUserinvoices.filter(invoice => {
+        return invoice.status == 'paid';
+    }).reduce((acc, invoice) => acc + invoice.total, 0);
+
+    const estimatedIncomeThisMonth = AllUserinvoices.filter(invoice => {
+        return invoice.date.getMonth() == new Date().getMonth();
+    }).reduce((acc, invoice) => acc + invoice.total, 0);
+
+    const estimatedIncomeThisWeek = AllUserinvoices.filter(invoice => {
+        return invoice.date.getMonth() == new Date().getMonth() && invoice.date.getDate() >= new Date().getDate() - 7;
+    }).reduce((acc, invoice) => acc + invoice.total, 0);
+
+    const estimatedIncomeToday = AllUserinvoices.filter(invoice => {
+        return invoice.date.getMonth() == new Date().getMonth() && invoice.date.getDate() == new Date().getDate();
+    }).reduce((acc, invoice) => acc + invoice.total, 0);
+
+    const invoices = {
+        estimatedIncome,
+        estimatedIncomeThisMonth,
+        estimatedIncomeThisWeek,
+        estimatedIncomeToday,
+        estimatedDue,
+        estimatedPaid,
+        numberOfInvoices
+    }
+
+    res.render('invoice/summary', {invoices});
+
 }

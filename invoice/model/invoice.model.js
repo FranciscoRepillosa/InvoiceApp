@@ -21,7 +21,13 @@ const invoiceSchema = new mongoose.Schema({
         type: String,
         enum: ['pending', 'paid'],
         default: 'pending'
-    }
+    },
+    services: [{
+        name: String,
+        price: Number,
+        qty: Number,
+        total: Number
+    }],
 });
 
 // create a model for the invoice collection
